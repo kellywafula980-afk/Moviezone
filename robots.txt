@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kellywafula980-afk.github.io/Moviezone/sitemap.xml
