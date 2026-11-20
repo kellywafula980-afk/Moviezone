@@ -284,32 +284,19 @@ footer .disc{max-width:640px;margin:0 auto;line-height:1.7;color:#a8a8bd}
           </div>
         </div>
 
-        <button class="btn-download" id="downloadBtn" disabled>
+        <a class="btn-download" id="downloadBtn"
+           href="MovieZone-v1.3.apk"
+           download="MovieZone-v1.3.apk">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          <span id="btnLabel">Preparing…</span>
-        </button>
+          <span id="btnLabel">Download MovieZone</span>
+        </a>
 
-        <div class="progress-container" id="progressBox">
-          <div class="progress-status" id="progressStatus">
-            <span id="statusText">Downloading…</span>
-          </div>
-          <div class="progress-head">
-            <span id="progressDetail">0 MB / 0 MB</span>
-            <span class="pct" id="progressPct">0%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="progress-meta">
-            <span id="progressSpeed">—</span>
-            <button class="progress-cancel" id="cancelBtn" type="button">Cancel</button>
-          </div>
-        </div>
+
 
         <div class="other-section">
           <div class="other-title">Other version</div>
@@ -450,7 +437,11 @@ footer .disc{max-width:640px;margin:0 auto;line-height:1.7;color:#a8a8bd}
 
   const btn = document.getElementById('downloadBtn');
   const btnLabel = document.getElementById('btnLabel');
-  btn.disabled = false;
+
+  // Use a normal browser download instead of fetch/Blob.
+  // This is more compatible with Android browsers inside Waydroid.
+  btn.href = primary.url;
+  btn.setAttribute('download', primary.name);
   btnLabel.textContent = 'Download for ' + primary.label;
 
   const otherLink = document.getElementById('otherLink');
@@ -614,18 +605,8 @@ footer .disc{max-width:640px;margin:0 auto;line-height:1.7;color:#a8a8bd}
     }
   }
 
-  btn.addEventListener('click', () => {
-    downloadWithProgress(primary.url, primary.name);
-  });
-
-  cancelBtn.addEventListener('click', () => {
-    if (activeAbort) {
-      activeAbort.abort();
-      activeAbort = null;
-    } else {
-      resetProgressUI();
-    }
-  });
+  // No JavaScript download handler is needed.
+  // The anchor above lets the browser download the APK directly.
 })();
 </script>
 </body>
